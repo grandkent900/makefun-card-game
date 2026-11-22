@@ -1,0 +1,121 @@
+/* Ember Tide — table, cards and overlays. All art is CSS: no images, no fonts, no network. */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+body {
+  background: #0d1b2a radial-gradient(ellipse at 50% 0%, #17324a 0%, #0d1b2a 60%, #081120 100%);
+  color: #f2ead8; font-family: Georgia, 'Times New Roman', serif;
+  overflow: hidden; user-select: none;
+}
+#app { width: 1280px; height: 800px; margin: 0 auto; display: flex; flex-direction: column; padding: 10px 18px; }
+
+/* ---------- top bar ---------- */
+#topbar { display: flex; align-items: baseline; gap: 22px; padding: 2px 4px 8px; border-bottom: 2px solid #c9a227; }
+.brand { font-size: 26px; font-weight: bold; letter-spacing: 4px; color: #f6d365; }
+.brand-flame { color: #ff6b35; } .brand-drop { color: #4cc9f0; }
+#roundInfo, #turnInfo { font-size: 17px; color: #cfe3ef; }
+#turnInfo { margin-left: auto; font-weight: bold; color: #ffd166; }
+
+/* ---------- fighter rows ---------- */
+.side-row { display: flex; align-items: center; gap: 16px; padding: 8px 4px; }
+.portrait {
+  width: 64px; height: 64px; border-radius: 50%; flex: none;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 34px; border: 3px solid #c9a227;
+}
+.rival-portrait { background: radial-gradient(circle at 35% 30%, #4361ee, #14213d); color: #90e0ef; }
+.player-portrait { background: radial-gradient(circle at 35% 30%, #ff6b35, #7f1d1d); color: #ffd166; }
+.fighter { width: 300px; flex: none; }
+.fighter-name { font-size: 19px; font-weight: bold; letter-spacing: 1px; margin-bottom: 5px; }
+.fighter-tag { font-size: 13px; font-weight: normal; color: #9db8c9; letter-spacing: 0; }
+.hpbar { position: relative; height: 26px; background: #1b2a3a; border: 2px solid #5b7a99; border-radius: 6px; overflow: hidden; }
+.hpfill { height: 100%; width: 100%; background: linear-gradient(90deg, #e63946, #ff6b35); transition: width .45s ease; }
+.hptext { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: bold; color: #fff; text-shadow: 0 1px 2px #000; }
+.meters { display: flex; gap: 14px; margin-top: 5px; font-size: 15px; color: #cfe3ef; }
+.meters b { color: #ffd166; font-size: 17px; }
+
+/* ---------- hands ---------- */
+.hand { display: flex; gap: 8px; align-items: center; }
+.rival-hand { margin-left: auto; }
+.card-back {
+  width: 52px; height: 76px; border-radius: 7px; border: 2px solid #c9a227;
+  background: repeating-linear-gradient(45deg, #14213d 0 8px, #1d3557 8px 16px);
+  display: flex; align-items: center; justify-content: center;
+  color: #4cc9f0; font-size: 24px;
+}
+.player-controls { margin-left: auto; text-align: right; }
+#endTurnBtn, #startBtn, #againBtn {
+  font-family: inherit; font-size: 20px; font-weight: bold; letter-spacing: 1px;
+  color: #1a1206; background: linear-gradient(180deg, #ffd166, #c9a227);
+  border: 2px solid #ffe9a8; border-radius: 10px; padding: 12px 26px; cursor: pointer;
+}
+#endTurnBtn:hover:not(:disabled), #startBtn:hover, #againBtn:hover { filter: brightness(1.12); }
+#endTurnBtn:disabled { opacity: .45; cursor: default; }
+.keys-hint { margin-top: 6px; font-size: 13px; color: #9db8c9; }
+
+/* ---------- middle row ---------- */
+#midRow { flex: 1; display: flex; gap: 16px; min-height: 0; padding: 4px 0; }
+#stage { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
+  border: 2px dashed #3d5a80; border-radius: 12px; background: rgba(13, 27, 42, .55); }
+.played-zone { display: flex; align-items: center; justify-content: center; min-height: 224px; }
+.played-hint { color: #5b7a99; font-size: 16px; font-style: italic; }
+.resonance { font-size: 20px; font-weight: bold; color: #ffd166; min-height: 26px; }
+#logPanel { width: 300px; flex: none; border: 2px solid #3d5a80; border-radius: 12px; background: rgba(8, 17, 32, .8); display: flex; flex-direction: column; }
+.log-title { padding: 8px 12px; font-size: 15px; letter-spacing: 2px; color: #ffd166; border-bottom: 1px solid #3d5a80; }
+.log { flex: 1; overflow-y: auto; padding: 8px 12px; font-size: 14px; line-height: 1.5; }
+.log div { margin-bottom: 4px; }
+.log .you { color: #ffb703; } .log .rival { color: #90e0ef; } .log .sys { color: #9db8c9; font-style: italic; }
+
+/* ---------- cards ---------- */
+#playerHandRow { padding: 6px 0 2px; min-height: 202px; display: flex; justify-content: center; }
+.player-hand { gap: 10px; }
+.card {
+  width: 148px; height: 196px; border-radius: 12px; flex: none; cursor: pointer;
+  background: linear-gradient(180deg, #fdf6e3, #f2e3c6); color: #1a1206;
+  border: 3px solid #8d6b2f; position: relative; padding: 6px 9px;
+  transition: transform .18s ease, box-shadow .18s ease;
+  display: flex; flex-direction: column; overflow: hidden;
+}
+.card:hover { transform: translateY(-14px) scale(1.04); box-shadow: 0 10px 22px rgba(0,0,0,.55); }
+.card.unplayable { opacity: .55; cursor: not-allowed; }
+.card.unplayable:hover { transform: none; box-shadow: none; }
+.card.played-anim { transform: translateY(-46px) scale(1.08); box-shadow: 0 14px 26px rgba(0,0,0,.6); }
+.card-top { display: flex; justify-content: space-between; align-items: flex-start; }
+.cost {
+  width: 36px; height: 36px; border-radius: 50%; background: #14213d; color: #ffd166;
+  display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: bold;
+  border: 2px solid #c9a227; flex: none;
+}
+.suit-glyph { font-size: 30px; line-height: 1; }
+.card-name { font-size: 16px; font-weight: bold; text-align: center; margin-top: 2px; min-height: 20px; }
+.card-art { flex: 1; display: flex; align-items: center; justify-content: center; font-size: 38px; margin: 1px 0; }
+.card-value { text-align: center; font-size: 26px; font-weight: bold; line-height: 1; }
+.card-value small { font-size: 14px; }
+.card-text { font-size: 12.5px; line-height: 1.25; text-align: center; color: #3d2b12; height: 31px; margin-top: 3px; overflow: hidden; }
+.card-suit { text-align: center; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: #6b5518; margin-top: 3px; white-space: nowrap; }
+.card.suit-ember { border-color: #e63946; } .card.suit-ember .suit-glyph, .card.suit-ember .card-art { color: #e63946; }
+.card.suit-tide { border-color: #4361ee; } .card.suit-tide .suit-glyph, .card.suit-tide .card-art { color: #4361ee; }
+.card.suit-leaf { border-color: #2a9d8f; } .card.suit-leaf .suit-glyph, .card.suit-leaf .card-art { color: #2a9d8f; }
+.card.suit-star { border-color: #b08900; } .card.suit-star .suit-glyph, .card.suit-star .card-art { color: #b08900; }
+.card .key { position: absolute; right: 6px; bottom: 4px; font-size: 11px; color: #8d6b2f; }
+
+/* ---------- overlays ---------- */
+.overlay { position: fixed; inset: 0; background: rgba(5, 10, 20, .88); display: flex; align-items: center; justify-content: center; z-index: 10; }
+.overlay.hidden { display: none; }
+.title-card, .end-card { text-align: center; max-width: 760px; padding: 34px 44px; border: 3px solid #c9a227; border-radius: 18px; background: linear-gradient(180deg, #14213d, #0d1b2a); }
+.title-glyphs { font-size: 44px; letter-spacing: 14px; }
+.g-ember { color: #ff6b35; } .g-tide { color: #4cc9f0; } .g-leaf { color: #80ed99; } .g-star { color: #ffd166; }
+.title-card h1 { font-size: 64px; letter-spacing: 8px; color: #f6d365; margin: 10px 0 6px; text-shadow: 0 3px 0 #7f1d1d; }
+.tagline { font-size: 19px; color: #cfe3ef; margin-bottom: 18px; }
+.howto { text-align: left; font-size: 16px; line-height: 1.65; color: #e8e0c8; background: rgba(255, 209, 102, .08); border: 1px solid #5b7a99; border-radius: 10px; padding: 12px 18px; margin-bottom: 20px; }
+.howto b { color: #ffd166; }
+.foot { margin-top: 14px; font-size: 13px; color: #9db8c9; }
+.end-card h1 { font-size: 58px; letter-spacing: 6px; margin-bottom: 8px; }
+.end-card h1.win { color: #ffd166; text-shadow: 0 0 24px rgba(255, 209, 102, .8); }
+.end-card h1.loss { color: #90e0ef; text-shadow: 0 0 24px rgba(76, 201, 240, .7); }
+.end-card p { font-size: 19px; color: #e8e0c8; margin-bottom: 14px; }
+.end-stats { display: flex; gap: 26px; justify-content: center; font-size: 16px; color: #cfe3ef; margin-bottom: 22px; }
+.end-stats b { color: #ffd166; font-size: 20px; }
+
+/* shot mode: no transitions, fully deterministic stills */
+body.shot * { transition: none !important; animation: none !important; }
+body.shot .card.played-anim { transform: none !important; box-shadow: 0 10px 22px rgba(0,0,0,.55); }
