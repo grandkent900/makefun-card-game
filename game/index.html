@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ember Tide — a duel of fire and water</title>
+<link rel="stylesheet" href="./css/table.css">
+</head>
+<body>
+<div id="app">
+  <header id="topbar">
+    <div class="brand"><span class="brand-flame">▲</span> EMBER TIDE <span class="brand-drop">●</span></div>
+    <div id="roundInfo">Round 1</div>
+    <div id="turnInfo">Your turn</div>
+  </header>
+
+  <section id="rivalRow" class="side-row">
+    <div class="portrait rival-portrait" title="The Tidecaller">~</div>
+    <div class="fighter">
+      <div class="fighter-name">THE TIDECALLER <span class="fighter-tag">rival · AI</span></div>
+      <div class="hpbar"><div id="rivalHpFill" class="hpfill"></div><span id="rivalHpText" class="hptext">30 / 30</span></div>
+      <div class="meters">
+        <span class="meter">Energy <b id="rivalEnergy">0</b></span>
+        <span class="meter">Block <b id="rivalBlock">0</b></span>
+        <span class="meter">Deck <b id="rivalDeck">0</b></span>
+      </div>
+    </div>
+    <div id="rivalHand" class="hand rival-hand" aria-label="Rival hand"></div>
+  </section>
+
+  <section id="midRow">
+    <div id="stage">
+      <div id="playedZone" class="played-zone"><span class="played-hint">Played cards appear here</span></div>
+      <div id="resonance" class="resonance"></div>
+    </div>
+    <aside id="logPanel">
+      <div class="log-title">DUEL LOG</div>
+      <div id="log" class="log"></div>
+    </aside>
+  </section>
+
+  <section id="playerRow" class="side-row">
+    <div class="portrait player-portrait" title="You, the Emberkeeper">▲</div>
+    <div class="fighter">
+      <div class="fighter-name">YOU <span class="fighter-tag">the Emberkeeper</span></div>
+      <div class="hpbar"><div id="playerHpFill" class="hpfill"></div><span id="playerHpText" class="hptext">30 / 30</span></div>
+      <div class="meters">
+        <span class="meter">Energy <b id="playerEnergy">0</b></span>
+        <span class="meter">Block <b id="playerBlock">0</b></span>
+        <span class="meter">Deck <b id="playerDeck">0</b></span>
+        <span class="meter">Discard <b id="playerDiscard">0</b></span>
+      </div>
+    </div>
+    <div class="player-controls">
+      <button id="endTurnBtn" type="button">END TURN ⏎</button>
+      <div class="keys-hint">Keys 1–7 play a card · Enter ends turn</div>
+    </div>
+  </section>
+
+  <section id="playerHandRow">
+    <div id="playerHand" class="hand player-hand" aria-label="Your hand"></div>
+  </section>
+
+  <div id="titleScreen" class="overlay">
+    <div class="title-card">
+      <div class="title-glyphs"><span class="g-ember">▲</span><span class="g-tide">●</span><span class="g-leaf">◆</span><span class="g-star">★</span></div>
+      <h1>EMBER TIDE</h1>
+      <p class="tagline">A duel of fire and water — outwit the Tidecaller.</p>
+      <div class="howto">
+        <div><b>▲ Ember</b> burns · <b>● Tide</b> draws &amp; binds · <b>◆ Leaf</b> heals &amp; shields · <b>★ Star</b> combos</div>
+        <div>Play two cards of the <b>same suit in a row</b> to trigger <b>Resonance +2</b>.</div>
+        <div>Energy grows as the duel goes on. Reduce the Tidecaller to <b>0 HP</b> to win.</div>
+      </div>
+      <button id="startBtn" type="button">BEGIN THE DUEL</button>
+      <p class="foot">An original card game · 30 HP each · no luck, only choices</p>
+    </div>
+  </div>
+
+  <div id="endScreen" class="overlay hidden">
+    <div class="end-card">
+      <h1 id="endTitle">VICTORY</h1>
+      <p id="endText"></p>
+      <div id="endStats" class="end-stats"></div>
+      <button id="againBtn" type="button">PLAY AGAIN</button>
+    </div>
+  </div>
+</div>
+<script type="module" src="./js/main.js"></script>
+</body>
+</html>
